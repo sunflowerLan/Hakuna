@@ -12,7 +12,7 @@ from hakunaBE.settings import IMAGE_DIR
 from typing import List
 
 router = Router(tags=["projects"])
-FILE_TYPE = ['img', 'png', 'jpg', 'jpeg']
+FILE_TYPE = ['img', 'png', 'jpg', 'jpeg', 'gif']
 
 @router.post('/')
 def create_project(request, payload: ProjectIn):
@@ -32,18 +32,20 @@ def project_lists(request, **kwargs):
     """
     获取项目列表
     """
-    data = [
-        {
-            "id": p.id,
-            "name": p.name,
-            "describe": p.describe,
-            "image": p.image,
-            "create_time": p.create_time
+    # data = [
+    #     {
+    #         "id": p.id,
+    #         "name": p.name,
+    #         "describe": p.describe,
+    #         "image": p.image,
+    #         "create_time": p.create_time
         
-        }
-        for p in Project.objects.filter(is_delete=False).order_by('-update_time')
-    ]
-    return data
+    #     }
+    #     for p in Project.objects.filter(is_delete=False).order_by('-update_time')
+    # ]
+    # return data
+    return Project.objects.filter(is_delete=False).order_by('-update_time')
+
 
 @router.get('/{project_id}')
 def project_details(request, project_id: int):
