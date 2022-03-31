@@ -18,10 +18,12 @@ class CustomPagination(PaginationBase):
         super().__init__(**kwargs)
 
     class Output(Schema):
-        items: List[Any]
-        page: int
+        success: bool = True
+        code: dict = {"code": "", "msg":""}
         total: int
-        per_page: int
+        # items: List[Any]
+        page: int
+        size: int
 
     def paginate_queryset(
         self, queryset: QuerySet, pagination: Input, **params: DictStrAny
@@ -31,7 +33,7 @@ class CustomPagination(PaginationBase):
         data = {
             "items": queryset[offset: offset + self.page_size],
             "page": page,
-            "per_page": self.page_size,
+            "size": self.page_size,
             "total": len(queryset),
         }
         return data

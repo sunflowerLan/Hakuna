@@ -24,7 +24,7 @@ def create_project(request, payload: ProjectIn):
         return response(error=Error.PROJECT_NAME_EXIST)
 
     project = Project.objects.create(**payload.dict())
-    return response(result={"id": project.id})
+    return response(item={"id": project.id})
 
 @router.get('/list', response=List[ProjectOut])
 @paginate(CustomPagination, page_size=6)
@@ -63,7 +63,7 @@ def project_details(request, project_id: int):
             "image": project.image,
             "create_time": project.create_time
     }
-    return response(result=data)
+    return response(item=data)
 
 @router.put('/{project_id}')
 def project_update(request, project_id: int, payload: ProjectIn):
@@ -110,4 +110,4 @@ def project_image_upload(request, file: UploadedFile= File(...)):
         for chunk in file.chunks():
             f.write(chunk)
 
-    return response(result={"name": file_name})
+    return response(item={"name": file_name})

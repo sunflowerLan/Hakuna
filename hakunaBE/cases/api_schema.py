@@ -13,5 +13,4 @@ class ModuleOut(Schema):
     """模块出参"""
     id: int
     name: str
-    
     create_time: datetime
