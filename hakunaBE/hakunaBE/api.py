@@ -4,6 +4,7 @@ from ninja.security import HttpBearer
 from django.contrib.sessions.models import Session
 from users.api import router as users_router
 from projects.api import router as projects_router
+from module.api import router as module_router
 from cases.api import router as cases_router
 
 class InvalidToken(Exception):
@@ -50,5 +51,7 @@ def on_expired_token(request, exc):
 api.add_router('/users/', users_router)
 # tags projects  URI: api/vi/projects/xxx
 api.add_router('/projects/', projects_router)
+# tags module  URI: api/vi/module/xxx
+api.add_router('/module/', module_router)
 # tags cases  URI: api/vi/cases/xxx
 api.add_router('/cases/', cases_router)

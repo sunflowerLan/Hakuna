@@ -20,6 +20,10 @@ class Error:
     MODULE_NOT_EXIST = {"10042": "模块不存在"}
     MODULE_IS_DELETE = {"10043": "模块已经被删除"}
 
+    CASES_METHOD_ERROR = {"10051": "请求方法错误"}
+    CASES_HEADER_ERROR = {"10052": "请求header错误"}
+    CASES_PARAMS_ERROR = {"10053": "请求参数类型错误"}
+
 
 def response(success: bool = True, error = None, item=None) -> dict:
     """
