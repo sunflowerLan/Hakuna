@@ -1,30 +1,49 @@
-from datetime import datetime
-from typing_extensions import assert_type
+
+from enum import Enum
+from typing import Any
 from ninja import Schema
 
-from hakunaBE.common import response
 
+class Method(str, Enum):
+    """请求方法"""
+    get = 'get'
+    post = 'post'
+    put = 'put'
+    delete = 'delete'
+
+
+class ParamsType(str, Enum):
+    """参数类型"""
+    params = 'params'
+    form = 'form'
+    json = 'json'
+
+
+class AssertType(str, Enum):
+    """断言类型"""
+    include = 'include'
+    equal = 'equal'
 
 class CaseIn(Schema):
     """用例入参"""
     name: str
     module_id: int
     url: str
-    method: str
-    header: str
-    params_type: str
-    params_body: str
+    method: Method
+    header: dict
+    params_type: ParamsType
+    params_body: dict
     response: str
-    assert_type: str
+    assert_type: AssertType
     assert_text: str
 
 
 class CaseDebugIn(Schema):
     """用例调试入参"""
     url: str
-    method: str
+    method: Method
     header: dict
-    params_type: str
+    params_type: ParamsType
     params_body: dict
 
 
@@ -35,8 +54,18 @@ class CaseAssertIn(Schema):
     assert_text: str
 
 
+class ModuleSchema(Schema):
+    """关联模块"""
+    id: int
+    name: str
+
 class CaseOut(Schema):
     """用例出参"""
     id: int
     name: str
-    create_time: datetime
+    module_id: int
+    url: str
+    method: str
+    module: ModuleSchema = None #关联模块
+    create_time: Any
+    update_time: Any
