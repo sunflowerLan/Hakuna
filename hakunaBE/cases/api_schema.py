@@ -33,7 +33,7 @@ class CaseIn(Schema):
     header: dict
     params_type: ParamsType
     params_body: dict
-    response: str
+    result: str
     assert_type: AssertType
     assert_text: str
 
@@ -48,8 +48,8 @@ class CaseDebugIn(Schema):
 
 
 class CaseAssertIn(Schema):
-    """用例调试入参"""
-    response: str
+    """用例断言入参"""
+    result: str
     assert_type: str
     assert_text: str
 

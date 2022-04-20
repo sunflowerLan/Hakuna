@@ -1,0 +1,49 @@
+{
+    "testcase1": {
+        "url": "http://httpbin.org/get",
+        "method": "get",
+        "header": {},
+        "params_type": "",
+        "params_body": {
+            "key1": "value1",
+            "key2": "value2"
+        },
+        "assert_type": "include",
+        "assert_text": "key1"
+    },
+    "testcase2": {
+        "url": "http://httpbin.org/post",
+        "method": "post",
+        "header": {
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36"
+        },
+        "params_type": "json",
+        "params_body": {
+            "key": "value"
+        },
+        "assert_type": "include",
+        "assert_text": "key"
+    },
+    "testcase3": {
+        "url": "http://httpbin.org/put",
+        "method": "put",
+        "header": {
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36"
+        },
+        "params_type": "form",
+        "params_body": {
+            "key": "value"
+        },
+        "assert_type": "equal",
+        "assert_text": "key"
+    },
+    "testcase4": {
+        "url": "http://httpbin.org/delete",
+        "method": "delete",
+        "header": {},
+        "params_type": "json",
+        "params_body": {},
+        "assert_type": "include",
+        "assert_text": ""
+    }
+}

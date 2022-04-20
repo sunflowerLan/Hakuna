@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+	<testsuite name="TestDemo-20220419181620" tests="4" file=".py" time="1.591" timestamp="2022-04-19T18:16:21" failures="1" errors="0" skipped="0">
+		<testcase classname="TestDemo" name="test_api_1_testcase1" time="0.568" timestamp="2022-04-19T18:16:20" file="test_case.py" line="18">
+			<!--test_api_1_testcase1-->
+		</testcase>
+		<testcase classname="TestDemo" name="test_api_2_testcase2" time="0.297" timestamp="2022-04-19T18:16:21" file="test_case.py" line="18">
+			<!--test_api_2_testcase2-->
+		</testcase>
+		<testcase classname="TestDemo" name="test_api_4_testcase4" time="0.418" timestamp="2022-04-19T18:16:21" file="test_case.py" line="18">
+			<!--test_api_4_testcase4-->
+		</testcase>
+		<testcase classname="TestDemo" name="test_api_3_testcase3" time="0.308" timestamp="2022-04-19T18:16:21" file="test_case.py" line="18">
+			<!--test_api_3_testcase3-->
+			<failure type="AssertionError" message="'key' != '{\n  &quot;args&quot;: {}, \n  &quot;data&quot;: &quot;&quot;, \n  &quot;fil[551 chars]n}\n'
+- key
++ {
+  &quot;args&quot;: {}, 
+  &quot;data&quot;: &quot;&quot;, 
+  &quot;files&quot;: {}, 
+  &quot;form&quot;: {
+    &quot;key&quot;: &quot;value&quot;
+  }, 
+  &quot;headers&quot;: {
+    &quot;Accept&quot;: &quot;*/*&quot;, 
+    &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;, 
+    &quot;Content-Length&quot;: &quot;9&quot;, 
+    &quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded&quot;, 
+    &quot;Host&quot;: &quot;httpbin.org&quot;, 
+    &quot;User-Agent&quot;: &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36&quot;, 
+    &quot;X-Amzn-Trace-Id&quot;: &quot;Root=1-625e8bf5-65cc58505a8713d829bc4e2e&quot;
+  }, 
+  &quot;json&quot;: null, 
+  &quot;origin&quot;: &quot;103.177.44.23&quot;, 
+  &quot;url&quot;: &quot;http://httpbin.org/put&quot;
+}
+
+"><![CDATA[Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "/Users/zhanglanfang/Documents/projects/githubPros/Hakuna/hakunaBE/case_running_demo/test_case.py", line 46, in test_api
+    self.assertEqual(assert_text, resp)
+AssertionError: 'key' != '{\n  "args": {}, \n  "data": "", \n  "fil[551 chars]n}\n'
+- key
++ {
+  "args": {}, 
+  "data": "", 
+  "files": {}, 
+  "form": {
+    "key": "value"
+  }, 
+  "headers": {
+    "Accept": "*/*", 
+    "Accept-Encoding": "gzip, deflate", 
+    "Content-Length": "9", 
+    "Content-Type": "application/x-www-form-urlencoded", 
+    "Host": "httpbin.org", 
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36", 
+    "X-Amzn-Trace-Id": "Root=1-625e8bf5-65cc58505a8713d829bc4e2e"
+  }, 
+  "json": null, 
+  "origin": "103.177.44.23", 
+  "url": "http://httpbin.org/put"
+}
+
+
+]]></failure>
+		</testcase>
+	</testsuite>
+</testsuites>
