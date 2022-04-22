@@ -12,7 +12,8 @@ print('str: ', sd, type(sd))
 
 
 dictTostr = json.dumps(dd)
-print('dictTostr: ', dictTostr, type(dictTostr))
+print('dictTostr: ', dictTostr, type(dictTostr), json.loads(dictTostr), json.dumps(dictTostr))
+
 
 strTodict1 = json.loads(json.dumps(dd))
 print('strTodict1: ', strTodict1, type(strTodict1))

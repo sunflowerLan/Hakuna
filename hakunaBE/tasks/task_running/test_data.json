@@ -1,1 +1,24 @@
-{"\u6d4b\u8bd5\u7528\u4f8b1-get": {"url": "https://api.github.com/events", "method": "get", "header": "{}", "params_type": "params", "params_body": "{}", "assert_type": "include", "assert_text": "WatchEvent"}, "\u6d4b\u8bd5\u7528\u4f8b2-post-form": {"url": "http://httpbin.org/post", "method": "post", "header": "{'Content-Type': 'application/json'}", "params_type": "form", "params_body": "{'key': 'value'}", "assert_type": "include", "assert_text": "{'key':'value'}"}}
+{
+    "测试用例1-get": {
+        "url": "https://api.github.com/events",
+        "method": "get",
+        "header": {},
+        "params_type": "params",
+        "params_body": {},
+        "assert_type": "include",
+        "assert_text": "WatchEvent"
+    },
+    "测试用例2-post-form": {
+        "url": "http://httpbin.org/post",
+        "method": "post",
+        "header": {
+            "Content-Type": "application/json"
+        },
+        "params_type": "form",
+        "params_body": {
+            "key": "value"
+        },
+        "assert_type": "include",
+        "assert_text": "{'key':'value'}"
+    }
+}

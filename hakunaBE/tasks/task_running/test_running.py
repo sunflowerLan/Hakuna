@@ -1,24 +1,21 @@
+import os
 import unittest
 import requests
 from XTestRunner import XMLTestRunner
-from ddt import ddt, file_data, unpack
+from ddt import ddt, file_data
 
-"""
-* XTestRunner
-pip install XTestRunner
+from tasks.api import TEST_DATA
 
 
-* ddt
-doc:https://github.com/datadriventests/ddt
-pip install ddt
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+TEST_DATA = os.path.join(BASE_DIR, "test_data.json")
+TEST_REPORT = os.path.join(BASE_DIR, "xml_result.xml")
 
 
-* xml
-"""
 @ddt
 class TestDemo(unittest.TestCase):
 
-    @file_data('test_data.json')
+    @file_data(TEST_DATA)
     def test_api(self, url, method, header, params_type, params_body, assert_type, assert_text):
         resp = ""
         if method == "get":
@@ -50,6 +47,5 @@ class TestDemo(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    report = './xml_result.xml'
-    with(open(report, 'wb')) as fp:
+    with(open(TEST_REPORT, 'wb')) as fp:
         unittest.main(testRunner=XMLTestRunner(output = fp))

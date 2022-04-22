@@ -47,7 +47,7 @@ def user_login(request, payload: LoginIn):
     user = auth.authenticate(username=username, password=password)
     if user is not None:
         auth.login(request, user) # 会向session表创建一条数据
-        token = Session.objects.last() # last 最近的一条数据
+        token = Session.objects.first() # last 最近的一条数据
         user_info = {
             "id": user.id,
             "username": user.username,
