@@ -6,7 +6,8 @@ from users.api import router as users_router
 from projects.api import router as projects_router
 from module.api import router as module_router
 from cases.api import router as cases_router
-from tasks.api import router as task_router
+from tasks.apis.task_api import router as task_router
+from tasks.apis.report_api import router as report_router
 
 class InvalidToken(Exception):
     """无效的token"""
@@ -56,5 +57,7 @@ api.add_router('/projects/', projects_router)
 api.add_router('/module/', module_router)
 # tags cases  URI: api/vi/cases/xxx
 api.add_router('/cases/', cases_router)
-# tags cases  URI: api/vi/tasks/xxx
+# tags tasks  URI: api/vi/tasks/xxx
 api.add_router('/tasks/', task_router)
+# tags reports  URI: api/vi/reports/xxx
+api.add_router('/reports/', report_router)

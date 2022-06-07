@@ -1,51 +1,81 @@
 import os
-import unittest
-import requests
-from XTestRunner import XMLTestRunner
-from ddt import ddt, file_data
+import json
+from cases.models import TestCase
+from tasks.models import TaskCaseRelevance, TestTask
+import threading
+from tasks.task_running.test_result import save_test_result
+from hakunaBE.settings import BASE_DIR
 
-from tasks.api import TEST_DATA
-
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-TEST_DATA = os.path.join(BASE_DIR, "test_data.json")
-TEST_REPORT = os.path.join(BASE_DIR, "xml_result.xml")
-
-
-@ddt
-class TestDemo(unittest.TestCase):
-
-    @file_data(TEST_DATA)
-    def test_api(self, url, method, header, params_type, params_body, assert_type, assert_text):
-        resp = ""
-        if method == "get":
-            resp = requests.get(url, headers=header, params=params_body).text
-
-        elif method == "post":
-            if params_type == "json":
-                resp = requests.post(url, headers=header, json=params_body).text
-            else:
-                resp = requests.post(url, headers=header, data=params_body).text
-
-        elif method == "put":
-            if params_type == "json":
-                resp = requests.put(url, headers=header, json=params_body).text
-            else:
-                resp = requests.put(url, headers=header, data=params_body).text
-
-        elif method == "delete":
-            if params_type == "json":
-                resp = requests.delete(url, headers=header, json=params_body).text
-            else:
-                resp = requests.delete(url, headers=header, data=params_body).text
-
-        if assert_type == "include":
-            self.assertIn(assert_text, resp)
-
-        elif assert_type == "equal":
-            self.assertEqual(assert_text, resp)
+# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+TEST_DATA = os.path.join(BASE_DIR, "tasks", "task_running", "test_data.json")
+TEST_CASE = os.path.join(BASE_DIR, "tasks", "task_running", "test_case.py")
 
 
-if __name__ == '__main__':
-    with(open(TEST_REPORT, 'wb')) as fp:
-        unittest.main(testRunner=XMLTestRunner(output = fp))
+def running(task_id: int):
+    """执行任务"""
+    # 1. 读取测试用例
+    print("1. 读取测试用例")
+    rel_list = TaskCaseRelevance.objects.filter(task_id = task_id)
+    test_cases = {}
+    for rel in rel_list:
+        try:
+            case = TestCase.objects.get(pk=rel.case_id)
+            header_str = json.loads(case.header.replace("\'", "\""))
+            params_body_str = json.loads(case.params_body.replace("\'", "\""))
+            test_cases[case.name] = {
+                "url": case.url,
+                "method": case.method,
+                "header": header_str,
+                "params_type": case.params_type,
+                "params_body": params_body_str,
+                "assert_type": case.assert_type,
+                "assert_text": case.assert_text
+            }
+        except TestCase.DoesNotExist:
+            pass
+    # print("test_cases: ", test_cases)
+
+    # 2. 用例数据写入json文件
+    print("2. 用例数据写入json文件")
+    with open(TEST_DATA, 'w', encoding='utf-8') as f:
+        # f.write(json.dumps(test_cases, ensure_ascii=False))
+        json.dump(test_cases, f, ensure_ascii=False)
+
+    # 3. 执行用例
+    print("3. 执行用例")
+    os.system(f"python3 {TEST_CASE}")
+
+    # 4. 保存测试结果
+    print("4. 保存测试结果")
+    save_test_result(task_id)
+
+    # 5. 执行完用例，改写任务状态
+    print("5. 改写任务状态: 已完成")
+    task = TestTask.objects.get(id=task_id)
+    task.status = 2
+    task.save()
+
+
+def async_run(task_id: int):
+    """
+    异步执行任务
+    守护进程，等待用例执行完
+    """
+    threads = []
+    t = threading.Thread(target=running, args=(task_id, ))
+    threads.append(t)
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join() #守护进程, 等待用例执行完
+
+
+def async_run_task(task_id: int):
+    """
+    异步执行
+    """
+    threads = []
+    t = threading.Thread(target=async_run, args=(task_id, ))
+    threads.append(t)
+    for t in threads:
+        t.start()

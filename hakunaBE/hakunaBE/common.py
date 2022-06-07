@@ -24,6 +24,8 @@ class Error:
     CASES_HEADER_ERROR = {"10052": "请求header错误"}
     CASES_PARAMS_ERROR = {"10053": "请求参数类型错误"}
 
+    TASK_IS_DELETE = {"10061": "测试任务已删除"}
+
 
 def response(success: bool = True, error = None, item=None) -> dict:
     """

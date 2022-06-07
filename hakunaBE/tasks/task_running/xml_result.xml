@@ -1,69 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-	<testsuite name="TestDemo-20220419181620" tests="4" file=".py" time="1.591" timestamp="2022-04-19T18:16:21" failures="1" errors="0" skipped="0">
-		<testcase classname="TestDemo" name="test_api_1_testcase1" time="0.568" timestamp="2022-04-19T18:16:20" file="test_case.py" line="18">
-			<!--test_api_1_testcase1-->
+	<testsuite name="TestDemo-20220426080713" tests="2" file=".py" time="0.804" timestamp="2022-04-26T08:07:14" failures="1" errors="0" skipped="0">
+		<testcase classname="TestDemo" name="test_api_2_测试用例3_post_json" time="0.267" timestamp="2022-04-26T08:07:14" file="tasks/task_running/test_case.py" line="16">
+			<!--test_api_2_测试用例3_post_json-->
 		</testcase>
-		<testcase classname="TestDemo" name="test_api_2_testcase2" time="0.297" timestamp="2022-04-19T18:16:21" file="test_case.py" line="18">
-			<!--test_api_2_testcase2-->
-		</testcase>
-		<testcase classname="TestDemo" name="test_api_4_testcase4" time="0.418" timestamp="2022-04-19T18:16:21" file="test_case.py" line="18">
-			<!--test_api_4_testcase4-->
-		</testcase>
-		<testcase classname="TestDemo" name="test_api_3_testcase3" time="0.308" timestamp="2022-04-19T18:16:21" file="test_case.py" line="18">
-			<!--test_api_3_testcase3-->
-			<failure type="AssertionError" message="'key' != '{\n  &quot;args&quot;: {}, \n  &quot;data&quot;: &quot;&quot;, \n  &quot;fil[551 chars]n}\n'
-- key
-+ {
-  &quot;args&quot;: {}, 
-  &quot;data&quot;: &quot;&quot;, 
-  &quot;files&quot;: {}, 
-  &quot;form&quot;: {
-    &quot;key&quot;: &quot;value&quot;
-  }, 
-  &quot;headers&quot;: {
-    &quot;Accept&quot;: &quot;*/*&quot;, 
-    &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;, 
-    &quot;Content-Length&quot;: &quot;9&quot;, 
-    &quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded&quot;, 
-    &quot;Host&quot;: &quot;httpbin.org&quot;, 
-    &quot;User-Agent&quot;: &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36&quot;, 
-    &quot;X-Amzn-Trace-Id&quot;: &quot;Root=1-625e8bf5-65cc58505a8713d829bc4e2e&quot;
-  }, 
-  &quot;json&quot;: null, 
-  &quot;origin&quot;: &quot;103.177.44.23&quot;, 
-  &quot;url&quot;: &quot;http://httpbin.org/put&quot;
-}
-
-"><![CDATA[Traceback (most recent call last):
+		<testcase classname="TestDemo" name="test_api_1_测试用例2_post_form" time="0.537" timestamp="2022-04-26T08:07:13" file="tasks/task_running/test_case.py" line="16">
+			<!--test_api_1_测试用例2_post_form-->
+			<failure type="AssertionError" message="&quot;{'key':'value'}&quot; not found in '{\n  &quot;args&quot;: {}, \n  &quot;data&quot;: &quot;key=value&quot;, \n  &quot;files&quot;: {}, \n  &quot;form&quot;: {}, \n  &quot;headers&quot;: {\n    &quot;Accept&quot;: &quot;*/*&quot;, \n    &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;, \n    &quot;Content-Length&quot;: &quot;9&quot;, \n    &quot;Content-Type&quot;: &quot;application/json&quot;, \n    &quot;Host&quot;: &quot;httpbin.org&quot;, \n    &quot;User-Agent&quot;: &quot;python-requests/2.27.1&quot;, \n    &quot;X-Amzn-Trace-Id&quot;: &quot;Root=1-6267a831-612b5bec68741b0554a11b93&quot;\n  }, \n  &quot;json&quot;: null, \n  &quot;origin&quot;: &quot;203.175.15.9&quot;, \n  &quot;url&quot;: &quot;http://httpbin.org/post&quot;\n}\n'"><![CDATA[Traceback (most recent call last):
   File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/ddt.py", line 191, in wrapper
     return func(self, *args, **kwargs)
-  File "/Users/zhanglanfang/Documents/projects/githubPros/Hakuna/hakunaBE/case_running_demo/test_case.py", line 46, in test_api
-    self.assertEqual(assert_text, resp)
-AssertionError: 'key' != '{\n  "args": {}, \n  "data": "", \n  "fil[551 chars]n}\n'
-- key
-+ {
-  "args": {}, 
-  "data": "", 
-  "files": {}, 
-  "form": {
-    "key": "value"
-  }, 
-  "headers": {
-    "Accept": "*/*", 
-    "Accept-Encoding": "gzip, deflate", 
-    "Content-Length": "9", 
-    "Content-Type": "application/x-www-form-urlencoded", 
-    "Host": "httpbin.org", 
-    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36", 
-    "X-Amzn-Trace-Id": "Root=1-625e8bf5-65cc58505a8713d829bc4e2e"
-  }, 
-  "json": null, 
-  "origin": "103.177.44.23", 
-  "url": "http://httpbin.org/put"
-}
-
-
+  File "/Users/zhanglanfang/Documents/projects/githubPros/Hakuna/hakunaBE/tasks/task_running/test_case.py", line 41, in test_api
+    self.assertIn(assert_text, resp)
+AssertionError: "{'key':'value'}" not found in '{\n  "args": {}, \n  "data": "key=value", \n  "files": {}, \n  "form": {}, \n  "headers": {\n    "Accept": "*/*", \n    "Accept-Encoding": "gzip, deflate", \n    "Content-Length": "9", \n    "Content-Type": "application/json", \n    "Host": "httpbin.org", \n    "User-Agent": "python-requests/2.27.1", \n    "X-Amzn-Trace-Id": "Root=1-6267a831-612b5bec68741b0554a11b93"\n  }, \n  "json": null, \n  "origin": "203.175.15.9", \n  "url": "http://httpbin.org/post"\n}\n'
 ]]></failure>
 		</testcase>
 	</testsuite>

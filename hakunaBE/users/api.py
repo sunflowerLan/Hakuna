@@ -1,5 +1,6 @@
 
 from ninja import Router
+from hakunaBE.settings import SESSION_COOKIE_NAME
 from users.api_schema import RegisterIn, LoginIn
 from hakunaBE.common import response, Error
 from django.contrib.auth.models import User
@@ -47,7 +48,9 @@ def user_login(request, payload: LoginIn):
     user = auth.authenticate(username=username, password=password)
     if user is not None:
         auth.login(request, user) # 会向session表创建一条数据
-        token = Session.objects.first() # last 最近的一条数据
+        # print("request session: ",request.COOKIES.get(SESSION_COOKIE_NAME), request.session.session_key)
+        session_key = request.session.session_key
+        token = Session.objects.filter(session_key=session_key).last() # last 最近的一条数据
         user_info = {
             "id": user.id,
             "username": user.username,
@@ -62,7 +65,7 @@ def user_login(request, payload: LoginIn):
 def user_logout(request):
     """用户退出"""
     auth.logout(request)
-    pass
+    return response()
 
 
 @router.get("/bearer")

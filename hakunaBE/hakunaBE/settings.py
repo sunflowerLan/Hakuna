@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders', # 注册跨域信息
     'users',
     'projects',
     'module',
@@ -48,11 +49,22 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware', # 在CSRF中间件位置配置跨域中间件
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+# 允许所有源访问
+CORS_ORIGIN_ALLOW_ALL = True
+# 允许携带cookie
+CORS_ALLOW_CREDENTIALS = True
+# 允许的请求头
+CORS_ALLOW_HEADERS = ["X-Requested-With", "token", "Content-Type"]
+# 允许的请求方法
+CORS_ALLOW_METHODS = ["POST", "GET", "PUT", "DELETE"]
+# 跨域白名单是个元组，当只有一个元素时，后面需要加一个逗号
+CORS_ORIGIN_WHITELIST = ("https://127.0.0.1:8080", )
 
 ROOT_URLCONF = 'hakunaBE.urls'
 
@@ -104,6 +116,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'   # 引擎（默认）
+SESSION_COOKIE_AGE = 1209600 # Session的cookie失效日期（2周）
+SESSION_COOKIE_NAME = "sessionid"   # Session的cookie保存在浏览器上时的key，即：sessionid＝随机字符串（默认）
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
