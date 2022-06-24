@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'corsheaders.middleware.CorsMiddleware', # 在CSRF中间件位置配置跨域中间件
+    # 'corsheaders.middleware.CorsMiddleware', # 在CSRF中间件位置配置跨域中间件
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -135,7 +135,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -143,6 +143,10 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # 图片存放路径
-IMAGE_DIR = os.path.join(BASE_DIR, "resources", "images")
+IMAGE_DIR = os.path.join(BASE_DIR, "static", "images")
+
+STATICFILES_DIRS = [
+  os.path.join(BASE_DIR, "static"),
+]
 # 分页器每页数量
 NINJA_PAGINATION_PER_PAGE = 6

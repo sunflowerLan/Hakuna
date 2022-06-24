@@ -1,3 +1,6 @@
+from itertools import chain
+
+
 class Error:
     """
     自定义错误与错误信息
@@ -15,6 +18,7 @@ class Error:
 
     FILE_TYPE_ERROR = {"10031": "文件类型错误"}
     FILE_SIZE_ERROR = {"10032": "超出文件大小"}
+    FILE_NOT_EXIST = {"10033": "文件不存在"}
 
     MODULE_NAME_EXIST = {"10041": "模块名称已存在"}
     MODULE_NOT_EXIST = {"10042": "模块不存在"}
@@ -26,12 +30,20 @@ class Error:
 
     TASK_IS_DELETE = {"10061": "测试任务已删除"}
 
+def model_to_dict(instance: object) -> dict:
+    """
+    对象转字典
+    """
+    opts = instance._meta
+    data = {}
+    for f in chain(opts.concrete_fields, opts.private_fields, opts.many_to_many):
+        data[f.name] = f.value_from_object(instance)
+    return data
 
 def response(success: bool = True, error = None, item=None) -> dict:
     """
     定义统一返回格式
     """
-    print("error", error)
     if error is None:
         error_code = ""
         error_msg = ""
@@ -43,12 +55,21 @@ def response(success: bool = True, error = None, item=None) -> dict:
     if item is None:
         item = {}
 
-    resp_dict = {
+    resp_data = {
         "success": success,
         "error": {
             "code": error_code,
             "msg": error_msg
         },
-        "item": item
     }
-    return resp_dict
+
+    if isinstance(item, dict):
+        resp_data["item"] = item
+    elif isinstance(item, list):
+        resp_data["items"] = item
+    elif isinstance(item, object):
+        item = model_to_dict(item)
+        resp_data["item"] = item
+    else:
+        resp_data["item"] = {}
+    return resp_data

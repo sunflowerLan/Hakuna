@@ -8,7 +8,7 @@ from hakunaBE.customPagination import CustomPagination
 from hakunaBE.common import response, Error
 from projects.api_schema import ProjectIn, ProjectOut
 from projects.models import Project
-from hakunaBE.settings import IMAGE_DIR
+from hakunaBE.settings import BASE_DIR, IMAGE_DIR
 from typing import List
 
 router = Router(tags=["projects"])
@@ -23,6 +23,8 @@ def create_project(request, payload: ProjectIn):
     if len(project) > 0:
         return response(error=Error.PROJECT_NAME_EXIST)
 
+    if payload.image == "":
+        payload.image = "default_project_image.png"
     project = Project.objects.create(**payload.dict())
     return response(item={"id": project.id})
 
@@ -111,3 +113,17 @@ def project_image_upload(request, file: UploadedFile= File(...)):
             f.write(chunk)
 
     return response(item={"name": file_name})
+
+@router.get("/image/delete")
+def project_image_delete(request, file_url: str):
+    """
+    项目图片删除
+    """
+    file_path = os.getcwd()+file_url
+    try:
+      os.remove(file_path)
+      # print("文件删除完毕")
+    except(FileNotFoundError):
+      # print("文件不存在")
+      return response(error=Error.FILE_NOT_EXIST)
+    return response()
