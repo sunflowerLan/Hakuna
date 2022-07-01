@@ -149,4 +149,4 @@ STATICFILES_DIRS = [
   os.path.join(BASE_DIR, "static"),
 ]
 # 分页器每页数量
-NINJA_PAGINATION_PER_PAGE = 6
+NINJA_PAGINATION_PER_PAGE = 8

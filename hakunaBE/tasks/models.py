@@ -13,7 +13,7 @@ class TestTask(models.Model):
     status = models.IntegerField("状态", default=0)  # 0未执行、1执行中、2已执行
     is_delete = models.BooleanField("删除", default=False)
     create_time = models.DateTimeField("创建时间", auto_now_add=True)
-    update_time = models.DateTimeField("创建时间", auto_now=True)
+    update_time = models.DateTimeField("更新时间", auto_now=True)
 
     def __str__(self):
         return self.name
@@ -22,9 +22,10 @@ class TestTask(models.Model):
 class TaskCaseRelevance(models.Model):
     """
     任务用例关联表
+    task 1  cases [{"moduleId":1,"casesId":[1,2]},{"moduleId":6,"casesId":[5,6]}]
     """
     task = models.ForeignKey(TestTask, on_delete=models.CASCADE)
-    case = models.ForeignKey(TestCase, on_delete=models.CASCADE)
+    case = models.TextField("关联用例", null=True, default="")
     create_time = models.DateTimeField("创建时间", auto_now_add=True)
 
 

@@ -29,7 +29,7 @@ def create_project(request, payload: ProjectIn):
     return response(item={"id": project.id})
 
 @router.get('/list', response=List[ProjectOut])
-@paginate(CustomPagination, page_size=6)
+@paginate(CustomPagination)
 def project_lists(request, **kwargs):
     """
     获取项目列表

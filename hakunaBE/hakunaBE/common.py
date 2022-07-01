@@ -21,7 +21,7 @@ class Error:
     FILE_NOT_EXIST = {"10033": "文件不存在"}
 
     MODULE_NAME_EXIST = {"10041": "模块名称已存在"}
-    MODULE_NOT_EXIST = {"10042": "模块不存在"}
+    MODULE_NOT_EXIST = {"10042": "当前项目下没有模块"}
     MODULE_IS_DELETE = {"10043": "模块已经被删除"}
 
     CASES_METHOD_ERROR = {"10051": "请求方法错误"}

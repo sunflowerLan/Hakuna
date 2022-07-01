@@ -49,8 +49,8 @@ class CaseDebugIn(Schema):
 
 class CaseAssertIn(Schema):
     """用例断言入参"""
-    result: str
-    assert_type: str
+    response: str
+    assert_type: AssertType
     assert_text: str
 
 

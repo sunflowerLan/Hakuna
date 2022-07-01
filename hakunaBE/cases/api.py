@@ -67,9 +67,9 @@ def case_debug(request, data:CaseDebugIn):
 @router.post("/assert/")
 def case_assert(request, data:CaseAssertIn):
     """用例断言"""
-    print('data', data)
-    resp = data.result
-    assert_type = data.assert_type
+    # print('data', data)
+    resp = data.response
+    assert_type = data.assert_type.lower()
     assert_text = data.assert_text
 
     if assert_type == 'include':
@@ -97,6 +97,7 @@ def case_delete(request, case_id: int):
 @router.put("/{case_id}/")
 def case_update(request, case_id: int, data: CaseIn):
     """修改用例信息"""
+    print('data', data)
     case = get_object_or_404(TestCase, id = case_id)
     for attr, value in data.dict().items():
         setattr(case, attr, value)

@@ -3,18 +3,32 @@ from django.db import IntegrityError
 from typing import List
 from django.forms import model_to_dict
 from django.shortcuts import get_object_or_404
-from ninja import Router
+from ninja import Query, Router
 from ninja.pagination import paginate
 from cases.models import TestCase
 from hakunaBE.common import Error, response
 from hakunaBE.customPagination import CustomPagination
 from tasks.models import TaskCaseRelevance, TestResult, TestTask
-from .api_shema import ResultOut, TestTaskIn
+from .api_shema import ResultOut, TestTaskIn, TaskOut
 from projects.models import Project
 from tasks.task_running.test_running import async_run_task
+import json
 
 
 router = Router(tags=['tasks'])
+
+@router.get('/{project_id}/list/', response=List[TaskOut])
+@paginate(CustomPagination)
+def get_task_list(request,  project_id: int, **kwargs):
+    """
+    获取项目列表
+    auth=None 该接口不需要认证
+    """
+    task_list = TestTask.objects.filter(project_id=project_id, is_delete=False).all()
+    for task in task_list:
+        relevance = TaskCaseRelevance.objects.get(task_id=task.id)
+        task.cases = json.loads(relevance.case)
+    return task_list
 
 @router.post('/')
 def task_create(request, data: TestTaskIn):
@@ -22,13 +36,8 @@ def task_create(request, data: TestTaskIn):
     project = get_object_or_404(Project, pk=data.project)
     newTask = TestTask.objects.create(project=project, name = data.name, describe = data.describe)
     cases = []
-    for case_id in data.case_id_list:
-        TaskCaseRelevance.objects.create(task_id = newTask.id, case_id = case_id)
-        case = TestCase.objects.get(pk=case_id)
-        cases.append({
-            "case": case.id,
-            "module": case.module_id
-        })
+    cases_json = json.dumps(data.cases)
+    TaskCaseRelevance.objects.create(task_id=newTask.id, case=cases_json)
     task_dict = model_to_dict(newTask)
     task_dict["cases"] = cases
     return response(item=task_dict)
@@ -55,14 +64,9 @@ def get_task_detail(request, task_id: int):
     if task.is_delete is True:
         return response(error=Error.TASK_IS_DELETE)
     
-    relevance = TaskCaseRelevance.objects.filter(task_id=task.id)
-
-    cases = []
-    for rel in relevance:
-        cases.append(rel.case_id)
-    
+    relevance = TaskCaseRelevance.objects.filter(task_id=task.id)[0]
     task_dict = model_to_dict(task)
-    task_dict["cases"] = cases
+    task_dict["cases"] = json.loads(relevance.case)
     return response(item=task_dict)
 
 
@@ -77,18 +81,21 @@ def task_update(request, task_id: int , data: TestTaskIn):
     task.project = project
     task.save()
 
-    # 删除旧的关系
-    relevance = TaskCaseRelevance.objects.filter(task_id = task_id)
-    relevance.delete()
+    # 更新关系
+    relevance = TaskCaseRelevance.objects.filter(task_id = task_id)[0]
+    relevance.case = json.dumps(data.cases)
+    relevance.save()
+
+    task_dict = model_to_dict(task)
+    task_dict["cases"] = data.cases
 
     # 建立新的关系
-    for case_id in data.case_id_list:
-    
-        try:
-            TaskCaseRelevance.objects.create(task_id=task.id, case_id=case_id)
-        except IntegrityError:
-            return response(error=Error.CASE_NOT_EXIST)
-    return response()
+    # for case_id in data.case_id_list:
+    #     try:
+    #         TaskCaseRelevance.objects.create(task_id=task.id, case_id=case_id)
+    #     except IntegrityError:
+    #         return response(error=Error.CASE_NOT_EXIST)
+    return response(item=task_dict)
 
 
 @router.delete('/{task_id}/')

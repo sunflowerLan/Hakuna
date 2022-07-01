@@ -12,10 +12,11 @@ class CustomPagination(PaginationBase):
     """
     class Input(Schema):
         page: int = Field(1, gt=0)
+        size: int = settings.PAGINATION_PER_PAGE
 
-    def __init__(self, page_size: int = settings.PAGINATION_PER_PAGE, **kwargs: Any) -> None:
-        self.page_size = page_size
-        super().__init__(**kwargs)
+    # def __init__(self, page_size: int = settings.PAGINATION_PER_PAGE, **kwargs: Any) -> None:
+    #     self.page_size = page_size
+    #     super().__init__(**kwargs)
 
     class Output(Schema):
         success: bool = True
@@ -29,11 +30,13 @@ class CustomPagination(PaginationBase):
         self, queryset: QuerySet, pagination: Input, **params: DictStrAny
     ) -> QuerySet:
         page: int = pagination.page  # type: ignore
-        offset = (page - 1) * self.page_size
+        size: int = pagination.size
+        offset = (page -1) * size
+        # offset = (page - 1) * self.page_size
         data = {
-            "items": queryset[offset: offset + self.page_size],
+            "items": queryset[offset: offset + size],
             "page": page,
-            "size": self.page_size,
+            "size": size,
             "total": len(queryset),
         }
         return data
