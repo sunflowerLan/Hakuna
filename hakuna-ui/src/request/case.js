@@ -13,7 +13,7 @@ class CaseApi {
     return request.post("/api/cases/", data)
   }
 
-  getCases(mid) {
+  getModuleCases(mid) {
     return request.get("/api/cases/" + mid + "/cases")
   }
 
@@ -25,8 +25,8 @@ class CaseApi {
     return request.delete("/api/cases/" + cid + "/")
   }
 
-  updateCase(cid) {
-    return request.put("/api/cases/" + cid + "/")
+  updateCase(cid, data) {
+    return request.put("/api/cases/" + cid + "/", data)
   }
 }
 

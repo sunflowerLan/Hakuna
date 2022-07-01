@@ -4,6 +4,7 @@ import LoginView from '../views/LoginView.vue'
 import NavigationView from '../views/NavigationView.vue'
 import ProjectList from '../components/project/ProjectList.vue'
 import CaseModule from '../components/case/CaseModule.vue'
+import TaskList from '../components/task/TaskList.vue'
 
 
 Vue.use(VueRouter)
@@ -34,7 +35,7 @@ const routes = [
       },
       {
         path: "task",
-        // component: taskList,
+        component: TaskList,
       },
       {
         path: "report"
